@@ -1,6 +1,21 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :update, :destroy]
 
+  # GET /unaproved
+  def unaproved
+    need_approve = Array.new
+    Booking.find_each do |booking|
+      if booking.validation_by == 0
+        need_approve.push(booking)
+      end
+    end
+    if need_approve.nil?
+      render json: false
+    else
+      render json: need_approve
+    end
+  end
+
   # GET /bookings
   def index
     @bookings = Booking.all

@@ -3,8 +3,6 @@ class SchedulesController < ApplicationController
 
   # GET /now
   def now
-
-    now = DateTime.now.to_i
     schedule = Schedule.all
     schedule.each do |booking|
       if booking.start < DateTime.now and booking.end > DateTime.now
