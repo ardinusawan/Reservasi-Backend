@@ -1,6 +1,24 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :update, :destroy]
 
+  # GET /now
+  def now
+
+    now = DateTime.now.to_i
+    schedule = Schedule.all
+    schedule.each do |booking|
+      if booking.start < DateTime.now and booking.end > DateTime.now
+        @bookings_now = Schedule.find(booking.id)
+        render json: @bookings_now
+      else
+        response = false
+      end
+    end
+    if response == false
+      render json: false
+    end
+  end
+
   # GET /schedules
   def index
     @schedules = Schedule.all
