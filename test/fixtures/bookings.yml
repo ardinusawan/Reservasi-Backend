@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  validation_by: 1
+  type: one
+  description: MyString
+
+two:
+  user: two
+  validation_by: 1
+  type: two
+  description: MyString
