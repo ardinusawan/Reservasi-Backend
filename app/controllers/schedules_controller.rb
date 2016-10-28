@@ -35,8 +35,14 @@ class SchedulesController < ApplicationController
     hours =  Time.at(data["duration"].to_i).utc.strftime("%H")
     minute =  Time.at(data["duration"].to_i).utc.strftime("%M")
     second =  Time.at(data["duration"].to_i).utc.strftime("%S")
+
+    from = data["start"].to_datetime
+    to = data["end"].to_datetime
+    tmp = from
+
     if data["repeated"]!="0"
-      if data["repeated"]=="1" #hari
+      if data["repeated"]=="1" #loop each day
+
         # DateTime.new(start_date["Year"],start_date["Month"],start_date["Day"])
         #     .upto(DateTime.new(end_date["Year"],end_date["Month"],end_date["Day"])) do |date|
         #   data_insert = {
@@ -44,14 +50,12 @@ class SchedulesController < ApplicationController
         #       "start" => DateTime.parse(date.to_s).strftime('%Y').to_s + "-" + DateTime.parse(date.to_s).strftime('%m') + "-" + DateTime.parse(date.to_s).strftime('%d') + "T" + DateTime.parse(data["start"]).strftime('%H') + ":" + DateTime.parse(data["start"]).strftime('%M') + ":" + DateTime.parse(data["start"]).strftime('%SZ'),
         #       "end" => DateTime.parse(date.to_s).strftime('%Y').to_s + "-" + DateTime.parse(date.to_s).strftime('%m') + "-" + DateTime.parse(date.to_s).strftime('%d') + "T" + DateTime.parse(data["end"]).strftime('%H') + ":" + DateTime.parse(data["end"]).strftime('%M') + ":" + DateTime.parse(data["end"]).strftime('%SZ')
         #   }
-        from = data["start"].to_datetime
-        to = data["end"].to_datetime
-        tmp = from
+
         while tmp + 1.day <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
-              "end" => tmp + 1.day + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
           }
           tmp += 1.day
           @schedule = Schedule.new(data_insert)
@@ -62,15 +66,12 @@ class SchedulesController < ApplicationController
             response = false
           end
         end
-      elsif data["repeated"]=="2" #minggu
-        from = data["start"].to_datetime
-        to = data["end"].to_datetime
-        tmp = from
+      elsif data["repeated"]=="2" #loop each week
         while tmp + 1.week <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
-              "end" => tmp + 1.week + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
           }
           tmp += 1.week
 
@@ -83,17 +84,14 @@ class SchedulesController < ApplicationController
           end
         end
 
-      elsif data["repeated"]=="3" #bulan
-        from = data["start"].to_datetime
-        to = data["end"].to_datetime
-        tmp = from
+      elsif data["repeated"]=="3" #loop each month
         while tmp + 1.month <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
-              "end" => tmp + 1.month + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
           }
-          tmp += 1.week
+          tmp += 1.month
 
           @schedule = Schedule.new(data_insert)
 
