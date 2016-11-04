@@ -32,25 +32,9 @@ class SchedulesController < ApplicationController
   # POST /schedules
   def create
     data = params
-    # start_date = {
-    #     "Year" => DateTime.parse(data["start"]).strftime('%Y').to_i,
-    #     "Month" => DateTime.parse(data["start"]).strftime('%m').to_i,
-    #     "Day" => DateTime.parse(data["start"]).strftime('%d').to_i,
-    #     "Hour" => DateTime.parse(data["start"]).strftime('%H').to_i,
-    #     "Minute" => DateTime.parse(data["start"]).strftime('%M').to_i,
-    #     "Second" => DateTime.parse(data["start"]).strftime('%S').to_i,
-    # }
-    # end_date = {
-    #     "Year" => DateTime.parse(data["end"]).strftime('%Y').to_i,
-    #     "Month" => DateTime.parse(data["end"]).strftime('%m').to_i,
-    #     "Day" => DateTime.parse(data["end"]).strftime('%d').to_i,
-    #     "Hour" => DateTime.parse(data["end"]).strftime('%H').to_i,
-    #     "Minute" => DateTime.parse(data["end"]).strftime('%M').to_i,
-    #     "Second" => DateTime.parse(data["end"]).strftime('%S').to_i,
-    # }
-    hours =  Time.at(data["duration"].to_i).utc.strftime("%H")
-    minute =  Time.at(data["duration"].to_i).utc.strftime("%M")
-    second =  Time.at(data["duration"].to_i).utc.strftime("%S")
+    hours =  Time.at(data["duration"].to_i).strftime("%H")
+    minute =  Time.at(data["duration"].to_i).strftime("%M")
+    second =  Time.at(data["duration"].to_i).strftime("%S")
 
     from = data["start"].to_datetime
     to = data["end"].to_datetime
@@ -58,15 +42,6 @@ class SchedulesController < ApplicationController
 
     if data["repeated"]!="0"
       if data["repeated"]=="1" #loop each day
-
-        # DateTime.new(start_date["Year"],start_date["Month"],start_date["Day"])
-        #     .upto(DateTime.new(end_date["Year"],end_date["Month"],end_date["Day"])) do |date|
-        #   data_insert = {
-        #       "booking_id" => data["booking_id"],
-        #       "start" => DateTime.parse(date.to_s).strftime('%Y').to_s + "-" + DateTime.parse(date.to_s).strftime('%m') + "-" + DateTime.parse(date.to_s).strftime('%d') + "T" + DateTime.parse(data["start"]).strftime('%H') + ":" + DateTime.parse(data["start"]).strftime('%M') + ":" + DateTime.parse(data["start"]).strftime('%SZ'),
-        #       "end" => DateTime.parse(date.to_s).strftime('%Y').to_s + "-" + DateTime.parse(date.to_s).strftime('%m') + "-" + DateTime.parse(date.to_s).strftime('%d') + "T" + DateTime.parse(data["end"]).strftime('%H') + ":" + DateTime.parse(data["end"]).strftime('%M') + ":" + DateTime.parse(data["end"]).strftime('%SZ')
-        #   }
-
         while tmp + 1.day <= to
           data_insert = {
               "booking_id" => data["booking_id"],
@@ -131,7 +106,8 @@ class SchedulesController < ApplicationController
     if response==true
       render json: @schedule, status: :created, location: @schedule
     else
-      render json: @schedule.errors, status: :unprocessable_entity
+      @schedule = false
+      render json: @schedule, status: :unprocessable_entity
     end
   end
 
