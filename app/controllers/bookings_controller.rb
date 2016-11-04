@@ -1,8 +1,8 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :update, :destroy]
 
-  # GET /unaproved
-  def unaproved
+  # GET /unapproved
+  def unapproved
     need_approve = Array.new
     Booking.find_each do |booking|
       if booking.validation_by == 0
@@ -10,9 +10,33 @@ class BookingsController < ApplicationController
       end
     end
     if need_approve.nil?
-      render json: false
+      head :no_content
     else
       render json: need_approve
+    end
+  end
+
+  # GET /approved
+  def approved
+    approved = Array.new
+    Booking.find_each do |booking|
+      if booking.validation_by == 1
+          approved.push(booking)
+      end
+    end
+    if approved.nil?
+      head :no_content
+    else
+      render json: approved
+    end
+  end
+
+  # POST /approving
+  def approving
+    if @booking.update(booking_params)
+      render json: @booking
+    else
+      render json: @booking.errors, status: :unprocessable_entity
     end
   end
 

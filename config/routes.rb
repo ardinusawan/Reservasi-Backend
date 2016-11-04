@@ -5,5 +5,7 @@ Rails.application.routes.draw do
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get '/now', to: 'schedules#now'
-  get '/unaproved', to: 'bookings#unaproved'
+  get '/unapproved', to: 'bookings#unapproved'
+  get '/approved', to: 'bookings#approved'
+
 end
