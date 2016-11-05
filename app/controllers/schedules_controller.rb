@@ -55,6 +55,7 @@ class SchedulesController < ApplicationController
              response = true
           else
             response = false
+            errors = @schedule.errors
           end
         end
       elsif data["repeated"]=="2" #loop each week
@@ -67,11 +68,11 @@ class SchedulesController < ApplicationController
           tmp += 1.week
 
           @schedule = Schedule.new(data_insert)
-
           if @schedule.save
             response = true
           else
             response = false
+            errors = @schedule.errors
           end
         end
 
@@ -90,6 +91,7 @@ class SchedulesController < ApplicationController
             response = true
           else
             response = false
+            errors = @schedule.errors
           end
         end
         end
@@ -97,17 +99,25 @@ class SchedulesController < ApplicationController
       @schedule = Schedule.new(schedule_params)
 
       if @schedule.save
-        render json: @schedule, status: :created, location: @schedule
+        #render json: @schedule, status: :created, location: @schedule
+        response = true
       else
-        render json: @schedule.errors, status: :unprocessable_entity
+        #render json: @schedule.errors, status: :unprocessable_entity
+        response = false
+        errors = @schedule.errors
       end
     end
 
     if response==true
       render json: @schedule, status: :created, location: @schedule
     else
-      @schedule = false
-      render json: @schedule, status: :unprocessable_entity
+      #@schedule = false
+      if errors.nil?
+        errors = {
+            "message" => "Cannot create interval data"
+        }
+      end
+      render json: errors, status: :unprocessable_entity
     end
   end
 
