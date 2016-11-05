@@ -20,7 +20,7 @@ class BookingsController < ApplicationController
   def approved
     approved = Array.new
     Booking.find_each do |booking|
-      if booking.validation_by == 1
+      if booking.validation_by!=0
           approved.push(booking)
       end
     end
