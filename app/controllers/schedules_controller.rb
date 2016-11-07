@@ -17,6 +17,25 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def day
+    date = params[:date].split(',')
+    booking_list = Array.new
+    schedule = Schedule.all
+    schedule.each do |booking|
+      if booking.start.strftime("%Y-%m-%d") == date[0].to_s
+        @bookings_now = Schedule.find(booking.id)
+        booking_list.push(@bookings_now)
+      else
+        response = false
+      end
+    end
+    if response == false
+      render json: false
+    else render json: booking_list
+    end
+
+  end
+
   # GET /schedules
   def index
     @schedules = Schedule.all
