@@ -7,5 +7,11 @@ Rails.application.routes.draw do
   get '/now', to: 'schedules#now'
   get '/unapproved', to: 'bookings#unapproved'
   get '/approved', to: 'bookings#approved'
+  get '/day/:date', to: 'schedules#day'
+  # get '/day/:year/:month/:day' => 'schedule#day', constraints: {
+  #     year:       /\d{4}/,
+  #     month:      /\d{1,2}/,
+  #     day:        /\d{1,2}/
+  # }
 
 end
