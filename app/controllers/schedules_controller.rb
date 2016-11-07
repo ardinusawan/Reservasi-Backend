@@ -54,10 +54,9 @@ class SchedulesController < ApplicationController
     hours =  Time.at(data["duration"].to_i).strftime("%H")
     minute =  Time.at(data["duration"].to_i).strftime("%M")
     second =  Time.at(data["duration"].to_i).strftime("%S")
-
     from = data["start"].to_datetime
     to = data["end"].to_datetime
-    tmp = from
+    tmp = from - 7.hours
 
     if data["repeated"]!="0"
       if data["repeated"]=="1" #loop each day
