@@ -17,6 +17,7 @@ class SchedulesController < ApplicationController
     end
   end
 
+  # GET /day/2011-11-10
   def day
     date = params[:date].split(',')
     booking_list = Array.new
@@ -51,20 +52,26 @@ class SchedulesController < ApplicationController
   # POST /schedules
   def create
     data = params
-    hours =  Time.at(data["duration"].to_i).strftime("%H")
-    minute =  Time.at(data["duration"].to_i).strftime("%M")
-    second =  Time.at(data["duration"].to_i).strftime("%S")
-    from = data["start"].to_datetime
-    to = data["end"].to_datetime
+    hours =  Time.at(data[:duration].to_i).strftime("%H")
+    hours = hours.to_i.hours - 7.hours
+    minute =  Time.at(data[:duration].to_i).strftime("%M")
+    minute = minute.to_i.minutes
+    second =  Time.at(data[:duration].to_i).strftime("%S")
+    second = second.to_i.seconds
+    from = data[:start].to_datetime
+    to = data[:end].to_datetime
+    print "---"
+    print to
+    print "---"
     tmp = from - 7.hours
 
-    if data["repeated"]!="0"
-      if data["repeated"]=="1" #loop each day
-        while tmp + 1.day <= to
+    if data[:repeated]!="0"
+      if data[:repeated]=="1" #loop each day
+        while tmp <= to
           data_insert = {
-              "booking_id" => data["booking_id"],
+              "booking_id" => data[:booking_id],
               "start" => tmp,
-              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours + minute + second
           }
           tmp += 1.day
           @schedule = Schedule.new(data_insert)
@@ -77,11 +84,11 @@ class SchedulesController < ApplicationController
           end
         end
       elsif data["repeated"]=="2" #loop each week
-        while tmp + 1.week <= to
+        while tmp <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
-              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours + minute + second
           }
           tmp += 1.week
 
@@ -95,11 +102,11 @@ class SchedulesController < ApplicationController
         end
 
       elsif data["repeated"]=="3" #loop each month
-        while tmp + 1.month <= to
+        while tmp <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
-              "end" => tmp + hours.to_i.hours + minute.to_i.minutes + second.to_i.seconds
+              "end" => tmp + hours + minute + second
           }
           tmp += 1.month
 
@@ -115,12 +122,10 @@ class SchedulesController < ApplicationController
         end
     elsif data["repeated"]=="0"
       @schedule = Schedule.new(schedule_params)
-
+      print schedule_params.inspect
       if @schedule.save
-        #render json: @schedule, status: :created, location: @schedule
         response = true
       else
-        #render json: @schedule.errors, status: :unprocessable_entity
         response = false
         errors = @schedule.errors
       end
