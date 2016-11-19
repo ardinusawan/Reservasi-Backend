@@ -59,21 +59,20 @@ class SchedulesController < ApplicationController
     second =  Time.at(data[:duration].to_i).strftime("%S")
     second = second.to_i.seconds
     from = data[:start].to_datetime
-    to = data[:end].to_datetime
-    print "---"
-    print to
-    print "---"
+    #to = data[:end].to_datetime
     tmp = from - 7.hours
 
     if data[:repeated]!="0"
       if data[:repeated]=="1" #loop each day
-        while tmp <= to
+        $i = 0
+        while $i < data[:repeated_end_after].to_i
+        #while tmp <= to
           data_insert = {
               "booking_id" => data[:booking_id],
               "start" => tmp,
               "end" => tmp + hours + minute + second
           }
-          tmp += 1.day
+          tmp += data[:repeated_every].to_i.day
           @schedule = Schedule.new(data_insert)
 
           if @schedule.save
@@ -82,15 +81,18 @@ class SchedulesController < ApplicationController
             response = false
             errors = @schedule.errors
           end
+          $i +=1
         end
       elsif data["repeated"]=="2" #loop each week
-        while tmp <= to
+        $i = 0
+        while $i < data[:repeated_end_after].to_i
+        # while tmp <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
               "end" => tmp + hours + minute + second
           }
-          tmp += 1.week
+          tmp += data[:repeated_every].to_i.week
 
           @schedule = Schedule.new(data_insert)
           if @schedule.save
@@ -99,30 +101,36 @@ class SchedulesController < ApplicationController
             response = false
             errors = @schedule.errors
           end
+          $i +=1
         end
-
       elsif data["repeated"]=="3" #loop each month
-        while tmp <= to
+        $i = 0
+        while $i < data[:repeated_end_after].to_i
+        # while tmp <= to
           data_insert = {
               "booking_id" => data["booking_id"],
               "start" => tmp,
               "end" => tmp + hours + minute + second
           }
-          tmp += 1.month
-
+          tmp += data[:repeated_every].to_i.month
           @schedule = Schedule.new(data_insert)
-
           if @schedule.save
             response = true
           else
             response = false
             errors = @schedule.errors
           end
+          $i +=1
         end
-        end
+      end
     elsif data["repeated"]=="0"
-      @schedule = Schedule.new(schedule_params)
-      print schedule_params.inspect
+      data_insert = {
+          "booking_id" => data[:booking_id],
+          "start" => tmp,
+          "end" => tmp + hours + minute + second
+      }
+      @schedule = Schedule.new(data_insert)
+
       if @schedule.save
         response = true
       else
