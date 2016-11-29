@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   #     month:      /\d{1,2}/,
   #     day:        /\d{1,2}/
   # }
+  match 'options', to: 'bookings#options', via: :all
 
 end
