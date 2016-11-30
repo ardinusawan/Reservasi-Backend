@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :schedules do
     get 'now', on: :collection
     get ':date', to: 'schedules#date', on: :collection
+    post 'conflict', on: :collection
   end
   resources :bookings do
     get 'unapproved', on: :collection
