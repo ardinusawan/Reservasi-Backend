@@ -22,9 +22,10 @@ class SchedulesController < ApplicationController
     date = params[:date].split(',')
     booking_list = Array.new
     schedule = Schedule.all
-    schedule.each do |booking|
-      if booking.start.strftime("%Y-%m-%d") == date[0].to_s and booking.validation_by!=0
-        @bookings_now = Schedule.find(booking.id)
+    schedule.each do |schedules|
+      booking = Booking.find(schedules.booking_id)
+      if schedules.start.strftime("%Y-%m-%d") == date[0].to_s and booking.validation_by!=0
+        @bookings_now = Schedule.find(schedules.id)
         booking_list.push(@bookings_now)
       else
         response = false
