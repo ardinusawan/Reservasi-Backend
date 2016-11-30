@@ -1,7 +1,7 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :update, :destroy]
 
-  # GET /now
+  # GET /schedules/now
   def now
     schedule = Schedule.all
     schedule.each do |booking|
@@ -17,8 +17,8 @@ class SchedulesController < ApplicationController
     end
   end
 
-  # GET /day/2011-11-10
-  def day
+  # GET /schedules/2011-11-10
+  def date
     date = params[:date].split(',')
     booking_list = Array.new
     schedule = Schedule.all
