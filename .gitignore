@@ -16,7 +16,7 @@
 # Ignore Byebug command history file.
 .byebug_history
 
-.idea/workspace.xml
+.idea/*
 
 /config/database.yml
 
