@@ -44,15 +44,15 @@ class ApplicationController < ActionController::API
 
   private
   def set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = request.env['HTTP_ORIGIN']
+    headers['Access-Control-Allow-Origin'] = request.env['*']
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Max-Age'] = '1000'
     headers['Access-Control-Allow-Headers'] = '*,x-requested-with'
   end
 
-
+  # HTTP_ORIGIN
   def access_allowed?
-    allowed_sites = [request.env['HTTP_ORIGIN']] #you might query the DB or something, this is just an example
-    return allowed_sites.include?(request.env['HTTP_ORIGIN'])
+    allowed_sites = [request.env['*']] #you might query the DB or something, this is just an example
+    return allowed_sites.include?(request.env['*'])
   end
 end
