@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/unapproved', to: 'bookings#unapproved'
   get '/approved', to: 'bookings#approved'
   get '/day/:date', to: 'schedules#day'
+  get '/find_user/:nrp_nip', to: 'users#find'
   # get '/day/:year/:month/:day' => 'schedule#day', constraints: {
   #     year:       /\d{4}/,
   #     month:      /\d{1,2}/,

@@ -13,6 +13,18 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  # Find Users
+  def find
+    @user = User.find_by(nrp_nip: params[:nrp_nip])
+    if @user.nil?
+      @message = Array.new
+      @message.push("Message" => "User Not Found")
+      render json: @message
+    else
+      render json: @user
+    end
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)
