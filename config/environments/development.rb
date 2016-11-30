@@ -48,12 +48,4 @@ Rails.application.configure do
   config.time_zone = "Jakarta"
   config.active_record.default_timezone = :local
 
-  # This handles cross-origin resource sharing.
-  # See: https://github.com/cyu/rack-cors
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '*', :headers => :any, :methods => [:get, :post, :options]
-    end
-  end
 end

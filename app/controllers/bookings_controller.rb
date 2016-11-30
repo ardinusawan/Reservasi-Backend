@@ -2,11 +2,11 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :update, :destroy]
 
   #OPTION /options
-  def options
-    @message = Array.new
-    @message.push("Message" =>"Bagi bagi uang sultan Razi")
-    render json: @message
-  end
+  # def options
+  #   @message = Array.new
+  #   @message.push("Message" =>"Bagi bagi uang sultan Razi")
+  #   render json: @message
+  # end
 
   # GET /unapproved
   def unapproved
