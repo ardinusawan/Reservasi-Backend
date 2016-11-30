@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     render json: @user.as_json(:except => [:password])
   end
 
-  # Find Users
+  # GET /find_user/:nrp_nip
   def find
     @user = User.find_by(nrp_nip: params[:nrp_nip])
     if @user.nil?
