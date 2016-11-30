@@ -1,14 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :update, :destroy]
 
-  #OPTION /options
-  # def options
-  #   @message = Array.new
-  #   @message.push("Message" =>"Bagi bagi uang sultan Razi")
-  #   render json: @message
-  # end
-
-  # GET /unapproved
+  # GET /bookings/unapproved
   def unapproved
     need_approve = Array.new
     Booking.find_each do |booking|
@@ -23,7 +16,7 @@ class BookingsController < ApplicationController
     end
   end
 
-  # GET /approved
+  # GET /bookings/approved
   def approved
     approved = Array.new
     Booking.find_each do |booking|
