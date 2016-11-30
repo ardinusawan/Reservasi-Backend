@@ -18,8 +18,8 @@
 
 .idea/*
 
-/config/database.yml
+# /config/database.yml
 
-/app/controllers/application_controller.rb
+#/app/controllers/application_controller.rb
 
 Gemfile.lock
