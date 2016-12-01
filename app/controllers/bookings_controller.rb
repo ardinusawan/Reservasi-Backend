@@ -1,7 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :update, :destroy]
 
-  # GET /unapproved
+  # GET /bookings/unapproved
   def unapproved
     need_approve = Array.new
     Booking.find_each do |booking|
@@ -16,7 +16,7 @@ class BookingsController < ApplicationController
     end
   end
 
-  # GET /approved
+  # GET /bookings/approved
   def approved
     approved = Array.new
     Booking.find_each do |booking|
@@ -85,6 +85,6 @@ class BookingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def booking_params
-      params.require(:booking).permit(:user_id, :validation_by, :type_id, :description)
+      params.require(:booking).permit(:user_id, :title, :validation_by, :type_id, :description)
     end
 end

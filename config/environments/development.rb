@@ -47,4 +47,5 @@ Rails.application.configure do
 
   config.time_zone = "Jakarta"
   config.active_record.default_timezone = :local
+
 end

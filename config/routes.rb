@@ -1,17 +1,24 @@
 Rails.application.routes.draw do
-  resources :schedules
-  resources :bookings
+  resources :schedules do
+    get 'now', on: :collection
+    get ':date', to: 'schedules#date', on: :collection
+    post 'conflict', on: :collection
+  end
+  resources :bookings do
+    get 'unapproved', on: :collection
+    get 'approved', on: :collection
+  end
+  resources :users do
+    get 'nrp_nip/:nrp_nip', to: 'users#find_by_nrp_nip', on: :collection
+  end
   resources :types
-  resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get '/now', to: 'schedules#now'
-  get '/unapproved', to: 'bookings#unapproved'
-  get '/approved', to: 'bookings#approved'
-  get '/day/:date', to: 'schedules#day'
+
+  match '*all',to: 'application#options', via: :options
+
+
   # get '/day/:year/:month/:day' => 'schedule#day', constraints: {
   #     year:       /\d{4}/,
   #     month:      /\d{1,2}/,
   #     day:        /\d{1,2}/
   # }
-
 end
