@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include ActionController::Serialization
   def create
     if access_allowed?
       set_access_control_headers
