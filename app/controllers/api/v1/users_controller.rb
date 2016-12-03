@@ -32,9 +32,9 @@ module Api::V1
       @user = User.new(user_params)
 
       if @user.save
-        render json: @user.as_json(:except => [:password]), status: :created, location: @user
+        respond_with :api, :v1, json: @user.as_json(:except => [:password]), status: :created
       else
-        render json: @user.errors, status: :unprocessable_entity
+        respond_with :api, :v1, json: @user.errors, status: :unprocessable_entity
       end
     end
 

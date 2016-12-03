@@ -3,6 +3,7 @@
 # Ardi Nusawan
 module Api::V1
   class SchedulesController < ApplicationController
+    respond_to :json
     before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_schedule, only: [:show, :update, :destroy]
 
@@ -238,15 +239,14 @@ module Api::V1
       end
 
       if response==true
-        render json: @schedule, status: :created, location: @schedule
+        respond_with :api, :v1, json: @schedule, status: :created
       else
-        #@schedule = false
         if errors.nil?
           errors = {
               "message" => "Cannot create interval data"
           }
         end
-        render json: errors, status: :unprocessable_entity
+        respond_with :api, :v1, json: errors, status: :unprocessable_entity
       end
     end
 

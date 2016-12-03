@@ -1,6 +1,8 @@
 module Api::V1
   class TypesController < ApplicationController
-    before_filter :authenticate_request!, only: [:update, :destroy]
+    respond_to :json
+
+    # before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_type, only: [:show, :update, :destroy]
 
     # GET /types
@@ -20,9 +22,9 @@ module Api::V1
       @type = Type.new(type_params)
 
       if @type.save
-        render json: @type, status: :created, location: @type
+      respond_with :api, :v1, json: @type, status: :created
       else
-        render json: @type.errors, status: :unprocessable_entity
+        respond_with :api, :v1, json: @type.errors, status: :unprocessable_entity
       end
     end
 

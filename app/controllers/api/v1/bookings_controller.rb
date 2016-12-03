@@ -1,5 +1,6 @@
 module Api::V1
   class BookingsController < ApplicationController
+    respond_to :json
     before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_booking, only: [:show, :update, :destroy]
 
@@ -36,9 +37,9 @@ module Api::V1
     # POST /approving
     def approving
       if @booking.update(booking_params)
-        render json: @booking
+        respond_with :api, :v1, json: @booking
       else
-        render json: @booking.errors, status: :unprocessable_entity
+        respond_with :api, :v1, json: @booking.errors, status: :unprocessable_entity
       end
     end
 
@@ -59,9 +60,9 @@ module Api::V1
       @booking = Booking.new(booking_params)
 
       if @booking.save
-        render json: @booking, status: :created, location: @booking
+        respond_with :api, :v1, json: @booking, status: :created
       else
-        render json: @booking.errors, status: :unprocessable_entity
+        respond_with :api, :v1, json: @booking.errors, status: :unprocessable_entity
       end
     end
 
