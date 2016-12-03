@@ -12,6 +12,7 @@ From Scratch, using scaffold a little bit :D
   - Puma (Dev), Apache2(Prod)
 * Configuration
   - Setting u'r DDoS params (im 2 lazy 2 write right now)
+    - http://sourcey.com/building-the-prefect-rails-5-api-only-app/
   - Setting u'r database in config/database, if sercer in cloud / diff server, add host parameter
 * Database creation  
     - rails db:create
@@ -31,10 +32,10 @@ From Scratch, using scaffold a little bit :D
     - After getting token, threw it in header
         - curl --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.po9twTrX99V7XgAk5mVskkiq8aa0lpYOue62ehubRY4" http://localhost:3000/home
   - Run : rails s
-    - binding : -b, ex rails s -b 0.0.0.0
-    - port(default:3000) : -p 8080 ex rails s -p 8080
-    - run on background : -d, ex rails s -d
+    - binding : -b. Example : rails s -b 0.0.0.0
+    - port(default:3000) : -p 8080. Example: rails s -p 8080
+    - run on background : -d. Example: rails s -d
 * Auth
-  Iam Using JWT, from https://www.sitepoint.com/introduction-to-using-jwt-in-rails/
+  - Iam Using JWT, from https://www.sitepoint.com/introduction-to-using-jwt-in-rails/
 
 License : Free! Do What U Want XD
