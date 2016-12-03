@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  scope '/api' do
-    scope '/v1' do
+  # scope module: 'api' do
+  namespace :api do
+    namespace :v1 do
       resources :schedules do
         get 'now', on: :collection
         get ':date', to: 'schedules#date', on: :collection
@@ -18,5 +19,5 @@ Rails.application.routes.draw do
       match '*all',to: 'application#options', via: :options
     end
   end
-
-  end
+# end
+end
