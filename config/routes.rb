@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
+  post 'auth_user' => 'authentication#authenticate_user'
+  get 'home' => 'home#index'
+
   # scope module: 'api' do
   namespace :api do
     namespace :v1 do
