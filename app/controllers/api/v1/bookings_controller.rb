@@ -1,5 +1,6 @@
 module Api::V1
   class BookingsController < ApplicationController
+    before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_booking, only: [:show, :update, :destroy]
 
     # GET /bookings/unapproved

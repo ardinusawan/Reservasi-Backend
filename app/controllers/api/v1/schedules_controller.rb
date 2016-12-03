@@ -3,6 +3,7 @@
 # Ardi Nusawan
 module Api::V1
   class SchedulesController < ApplicationController
+    before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_schedule, only: [:show, :update, :destroy]
 
     # POST /schedules/conflict
