@@ -1,6 +1,7 @@
 module Api::V1
   class UsersController < ApplicationController
-    before_filter :authenticate_request!
+    respond_to :json
+    before_filter :authenticate_request!, except: [:create]
     before_action :set_user, only: [:show, :update, :destroy]
 
     # GET /users
