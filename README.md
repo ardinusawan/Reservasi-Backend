@@ -1,4 +1,4 @@
-# Reservasi Backend Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
+# Under Development | Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya, Indonesia
 
 This Project is create by My Self.
 From Scratch, using scaffold a little bit :D
