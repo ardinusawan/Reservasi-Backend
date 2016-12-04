@@ -1,19 +1,19 @@
 module Api::V1
   class UsersController < ApplicationController
     respond_to :json
-    before_filter :authenticate_request!, except: [:create]
+    before_filter :authenticate_request!, except: [:show, :create]
     before_action :set_user, only: [:show, :update, :destroy]
 
     # GET /users
     def index
       @users = User.all
 
-      render json: @users.as_json(:except => [:password])
+      render json: @users.as_json(:except => [:password, :is_admin])
     end
 
     # GET /users/1
     def show
-      render json: @user.as_json(:except => [:password])
+      render json: @user.as_json(:except => [:password, :is_admin])
     end
 
     # GET /users/nrp_nip/:nrp_nip
@@ -24,7 +24,7 @@ module Api::V1
         @message.push("Message" => "User Not Found")
         render json: @message
       else
-        render json: @user.as_json(:except => [:password])
+        render json: @user.as_json(:except => [:password, :is_admin])
       end
     end
 
@@ -33,7 +33,7 @@ module Api::V1
       @user = User.new(user_params)
 
       if @user.save
-        respond_with :api, :v1, json: @user.as_json(:except => [:password]), status: :created
+        respond_with :api, :v1, json: @user.as_json(:except => [:password, :is_admin]), status: :created
       else
         respond_with :api, :v1, json: @user.errors, status: :unprocessable_entity
       end
@@ -42,7 +42,7 @@ module Api::V1
     # PATCH/PUT /users/1
     def update
       if @user.update(user_params)
-        render json: @user.as_json(:except => [:password])
+        render json: @user.as_json(:except => [:password, :is_admin])
       else
         render json: @user.errors, status: :unprocessable_entity
       end
