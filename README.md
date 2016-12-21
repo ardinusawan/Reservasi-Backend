@@ -1,7 +1,7 @@
-# Under Development | Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya, Indonesia
-
-This Project is create by My Self.
-From Scratch, using scaffold a little bit :D
+Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya, Indonesia
+================
+[![Build Status](https://travis-ci.org/lpif/Reservasi-Backend.svg?branch=master)](https://travis-ci.org/lpif/Reservasi-Backend)
+--------
 
 * Ruby & Rails version
     - ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
@@ -13,7 +13,7 @@ From Scratch, using scaffold a little bit :D
 * Configuration
   - Setting u'r DDoS params (im 2 lazy 2 write right now)
     - http://sourcey.com/building-the-prefect-rails-5-api-only-app/
-  - Setting u'r database in config/database, if sercer in cloud / diff server, add host parameter
+  - Setting u'r database in config/database, if server in cloud / diff server, add host parameter
 * Database creation  
     - rails db:create
 * Database initialization
@@ -37,5 +37,3 @@ From Scratch, using scaffold a little bit :D
     - run on background : -d. Example: rails s -d
 * Auth
   - Iam Using JWT, from https://www.sitepoint.com/introduction-to-using-jwt-in-rails/
-
-License : Free! Do What U Want XD
