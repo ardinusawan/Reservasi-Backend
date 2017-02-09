@@ -7,85 +7,79 @@ module Api::V1
     before_filter :authenticate_request!, only: [:update, :destroy]
     before_action :set_schedule, only: [:show, :update, :destroy]
 
+    def conflict?(date1, date2)
+      !(date1.last <= date2.first || date1.first >= date2.last)
+    end
     # POST /schedules/conflict
     def conflict
       error = false
       schedules = Schedule.all
       schedules_conflict_list = Array.new
-      from = params[:start].to_datetime - 7.hours
-      to = params[:start].to_datetime - 7.hours + params[:duration].to_i.seconds
-
+      from = params[:start].to_datetime
+      to = params[:start].to_datetime + params[:duration].to_i.seconds
+      from = from.in_time_zone
+      to = to.in_time_zone
+      from = from - 7.hours
+      to = to - 7.hours
       if params[:repeated]=="0"
         $i = 0
         schedules.each_with_index do |schedule, index|
-          if(schedule.start.to_datetime > DateTime.now)
-            if ((schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) or \
-                (schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) \
-            and $i < 1)
+          # if(schedule.start.to_datetime > DateTime.now)
+            if (conflict?([tmp_from, tmp_to],
+                          [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < 1
               @schedule_conflict = Schedule.find(schedule.id)
               schedules_conflict_list.push($i => Array(@schedule_conflict))
               $i +=1
             end
-          end
+          # end
         end
       elsif params[:repeated]=="1"
         tmp_from = from
         tmp_to = to
         $i = 0
           schedules.each_with_index do |schedule, index|
-            if(schedule.start.to_datetime > DateTime.now)
-              if ((schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                  (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                  (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) or \
-                  (schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) \
-                    and $i < params[:repeated_end_after].to_i)
-                        @schedule_conflict = Schedule.find(schedule.id )
-                        schedules_conflict_list.push($i => Array(@schedule_conflict))
-                        tmp_from += params[:repeated_every].to_i.day
-                        tmp_to += params[:repeated_every].to_i.day
-                        $i +=1
+            # if(schedule.start.to_datetime > DateTime.now)
+              if (conflict?([tmp_from, tmp_to],
+                            [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
+              @schedule_conflict = Schedule.find(schedule.id )
+              schedules_conflict_list.push($i => Array(@schedule_conflict))
+              tmp_from += params[:repeated_every].to_i.day
+              tmp_to += params[:repeated_every].to_i.day
+              $i +=1
               end
-            end
+            # end
           end
       elsif params[:repeated]=="2"
         tmp_from = from
         tmp_to = to
         $i = 0
         schedules.each_with_index do |schedule, index|
-          if(schedule.start.to_datetime > DateTime.now)
-            if ((schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) or \
-                (schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) \
-                  and $i < params[:repeated_end_after].to_i)
+          # if(schedule.start.to_datetime > DateTime.now)
+            if (conflict?([tmp_from, tmp_to],
+                          [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
               @schedule_conflict = Schedule.find(schedule.id )
               schedules_conflict_list.push($i => Array(@schedule_conflict))
               tmp_from += params[:repeated_every].to_i.week
               tmp_to += params[:repeated_every].to_i.week
               $i +=1
             end
-          end
+          # end
         end
       elsif params[:repeated]=="3"
         tmp_from = from
         tmp_to = to
         $i = 0
         schedules.each_with_index do |schedule, index|
-          if(schedule.start.to_datetime > DateTime.now)
-            if ((schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i >= from.to_i) or \
-                (schedule.start.to_datetime.to_i <= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) or \
-                (schedule.start.to_datetime.to_i >= from.to_i and schedule.start.to_datetime.to_i <= to.to_i and schedule.end.to_datetime.to_i >= from.to_i and schedule.end.to_datetime.to_i <= from.to_i) \
-                  and $i < params[:repeated_end_after].to_i)
+          # if(schedule.start.to_datetime > DateTime.now)
+            if (conflict?([tmp_from, tmp_to],
+                          [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
               @schedule_conflict = Schedule.find(schedule.id )
               schedules_conflict_list.push($i => Array(@schedule_conflict))
               tmp_from += params[:repeated_every].to_i.month
               tmp_to += params[:repeated_every].to_i.month
               $i +=1
             end
-          end
+          # end
         end
       end
       # render json: schedules_conflict_list
