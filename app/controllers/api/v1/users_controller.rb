@@ -33,7 +33,7 @@ module Api::V1
       @user = User.new(user_params)
 
       if @user.save
-        respond_with :api, :v1, json: @user.as_json(:except => [:password, :is_admin]), status: :created
+        render json: @user.as_json(:except => [:password, :is_admin]), status: :created
       else
         respond_with :api, :v1, json: @user.errors, status: :unprocessable_entity
       end

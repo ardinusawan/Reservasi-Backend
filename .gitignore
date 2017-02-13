@@ -19,6 +19,8 @@
 .idea/*
 
 # /config/database.yml
+/config/database2.yml
+
 
 #/app/controllers/application_controller.rb
 
