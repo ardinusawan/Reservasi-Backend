@@ -60,7 +60,7 @@ module Api::V1
       @booking = Booking.new(booking_params)
 
       if @booking.save
-        respond_with :api, :v1, json: @booking, status: :created
+        render json: @booking, status: :created
       else
         respond_with :api, :v1, json: @booking.errors, status: :unprocessable_entity
       end

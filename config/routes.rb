@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   post 'auth_user' => 'authentication#authenticate_user'
   get 'home' => 'home#index'
+  match '*all',to: 'application#options', via: :options
 
   # scope module: 'api' do
-  namespace :api do
+  namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       resources :schedules do
         get 'now', on: :collection
@@ -20,8 +21,9 @@ Rails.application.routes.draw do
       end
       resources :types
 
-      match '*all',to: 'application#options', via: :options
+      #match '*all',to: 'application#options', via: :options
     end
   end
+  #match '*all',to: 'application#options', via: :options
 # end
 end

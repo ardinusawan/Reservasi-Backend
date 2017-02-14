@@ -233,7 +233,7 @@ module Api::V1
       end
 
       if response==true
-        respond_with :api, :v1, json: @schedule, status: :created
+        render json: @schedule, status: :created
       else
         if errors.nil?
           errors = {
