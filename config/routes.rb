@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post 'auth_user' => 'authentication#authenticate_user'
   get 'home' => 'home#index'
   match '*all',to: 'application#options', via: :options
+  get '/', :to => redirect('/index.html')
 
   # scope module: 'api' do
   namespace :api, defaults: {format: 'json'} do
