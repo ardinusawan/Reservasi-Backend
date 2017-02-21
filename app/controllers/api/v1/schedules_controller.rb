@@ -125,7 +125,8 @@ module Api::V1
       end
       if response == false
         render json: false
-      else render json: booking_list
+      else
+        render json: booking_list.sort_by { |hash| hash['start'].to_i }
       end
 
     end
