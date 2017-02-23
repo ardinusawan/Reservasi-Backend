@@ -2,6 +2,17 @@ Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
 ================
 [![Build Status](https://travis-ci.org/lpif/Reservasi-Backend.svg?branch=master)](https://travis-ci.org/lpif/Reservasi-Backend)
 --------
+### How To Deploy
+## Dev
+* rails s -b 0.0.0.0 -p 10003 -d
+
+## Prod
+* Create server key, using `RAILS_ENV=production rails secret`
+* Copy config/local_env.yml.example to config/local_env.yml and edit value there
+* rails s -b 0.0.0.0 -p 10003 -d -e production
+* OR `nohup rails s -b 0.0.0.0 -p 10003 -e production`
+* AND `tail -f nohup.out` if u want to read log
+--------
 
 * Ruby & Rails version
     - ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
