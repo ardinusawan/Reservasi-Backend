@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post 'auth_user' => 'authentication#authenticate_user'
   get 'home' => 'home#index'
   match '*all',to: 'application#options', via: :options
-  get '/', :to => redirect('/index.html')
+  get '/'  => 'home#index'
 
   # scope module: 'api' do
   namespace :api, defaults: {format: 'json'} do
@@ -21,10 +21,6 @@ Rails.application.routes.draw do
         get 'nrp_nip/:nrp_nip', to: 'users#find_by_nrp_nip', on: :collection
       end
       resources :types
-
-      #match '*all',to: 'application#options', via: :options
     end
   end
-  #match '*all',to: 'application#options', via: :options
-# end
 end
