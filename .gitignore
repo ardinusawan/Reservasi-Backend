@@ -25,3 +25,6 @@
 #/app/controllers/application_controller.rb
 
 Gemfile.lock
+
+/config/local_env.yml
+

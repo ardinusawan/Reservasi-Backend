@@ -1,0 +1,20 @@
+# Rename this file to local_env.yml
+# Add account settings and API keys here.
+# This file should be listed in .gitignore to keep your settings secret!
+# Each entry gets set as a local environment variable.
+# This file overrides ENV variables in the Unix shell.
+# For example, setting:
+# GMAIL_USERNAME: 'Your_Gmail_Username'
+## makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"
+
+#Dev
+  RESERVASI-BACKEND-DEV_DATABASE_HOST: 'Your Host'
+  RESERVASI-BACKEND-DEV_DATABASE_USERNAME: 'Your Username'
+  RESERVASI-BACKEND-DEV_DATABASE_PASSWORD: 'Your Password'
+
+#Prod
+  RESERVASI-BACKEND_DATABASE_HOST: 'Your Host'
+  RESERVASI-BACKEND_DATABASE_USERNAME: 'Your Username'
+  RESERVASI-BACKEND_DATABASE_PASSWORD: 'Your Password'
+  DEVICE_SECRET_KEY: ''
+
