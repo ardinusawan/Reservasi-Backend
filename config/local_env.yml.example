@@ -20,4 +20,5 @@ DEVISE_SECRET_KEY: 'Your Key'
 #create with this command
 #RAILS_ENV=production rake secret
 SECRET_KEY_BASE: 'Your Key'
+HTTP_ORIGIN: '*' #or specific IP address
 
