@@ -14,13 +14,14 @@ default: &default
   encoding: utf8
   pool: 5
   socket: /var/run/mysqld/mysqld.sock
+  host: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_HOST'] %>
+  username: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_USERNAME'] %>
+  password: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_PASSWORD'] %>
 
 development:
   <<: *default
   database: Reservasi-Backend_development
-  host: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_HOST'] %>
-  username: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_USERNAME'] %>
-  password: <%= ENV['RESERVASI-BACKEND-DEV_DATABASE_PASSWORD'] %>
+  
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
