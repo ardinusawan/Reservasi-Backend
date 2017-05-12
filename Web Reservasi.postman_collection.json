@@ -1,0 +1,571 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Web Reservasi",
+		"_postman_id": "1f0e6eb5-a30f-03cc-3b4a-ac08d1786fbb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"description": "",
+			"item": [
+				{
+					"name": "Admin Home",
+					"request": {
+						"url": "{{host}}/home",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST Credential Admin",
+					"request": {
+						"url": "{{host}}/auth_user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "lp@if.its.ac.id",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "password",
+									"value": "123321",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								}
+							]
+						},
+						"description": "for getting token"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"description": "",
+			"item": [
+				{
+					"name": "GET All Bookings Data",
+					"request": {
+						"url": "{{host}}/api/v1/bookings",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST Bookings Data",
+					"request": {
+						"url": "{{host}}/api/v1/bookings",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\":1,\n  \"title\":\"Kelas Progjar D\",\n  \"validation_by\":0,\n  \"type_id\":1,\n  \"description\":\"Test Pinjam\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Bookings Data",
+					"request": {
+						"url": "{{host}}/api/v1/bookings/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"validation_by\":0\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Bookings Data",
+					"request": {
+						"url": "{{host}}/api/v1/bookings/20",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"validation_by\":2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation",
+			"description": "",
+			"item": [
+				{
+					"name": "GET Now Reservation ",
+					"request": {
+						"url": "{{host}}/api/v1/schedules/now",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Unaproved Reservation ",
+					"request": {
+						"url": "{{host}}/api/v1/bookings/unapproved",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET approved Reservation ",
+					"request": {
+						"url": "{{host}}/api/v1/bookings/approved",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"description": "",
+			"item": [
+				{
+					"name": "GET Schedule Time",
+					"request": {
+						"url": "{{host}}/api/v1/schedules",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking_id\":1,\n  \"start\":\"2016-7-10T00:12:12.12Z\",\n  \"end\":\"2016-8-10T00:12:12.12Z\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST Schedule Time",
+					"request": {
+						"url": "{{host}}/api/v1/schedules",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n  \"booking_id\":22,\n  \"start\":\"2017-02-18T09:00:00\",\n  \"duration\":\"7200\",\n  \"repeated\":\"1\",\n  \"repeated_every\":\"1\",\n  \"repeated_end_after\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Schedule Time",
+					"request": {
+						"url": "{{host}}/api/v1/schedules/1",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking_id\":1,\n  \"start\":\"2016-10-29T06:00:56Z\",\n  \"end\":\"2016-11-29T23:12:12Z\",\n  \"duration\":\"7200\",\n  \"repeated\":\"2\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Schedule Time",
+					"request": {
+						"url": "{{host}}/api/v1/schedules/12",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET On Date Reservation ",
+					"request": {
+						"url": "{{host}}/api/v1/schedules/2017-02-22",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST  Schedule Time is Conflict?",
+					"request": {
+						"url": "{{host}}/api/v1/schedules/conflict",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start\":\"2017-02-18T09:00:00\",\n  \"duration\":\"7200\",\n  \"repeated\":\"1\",\n  \"repeated_every\":\"1\",\n  \"repeated_end_after\":\"3\"\n}"
+						},
+						"description": "if \n  \"success\" = true : no conflict\nelse conflict"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Types",
+					"request": {
+						"url": "{{host}}/api/v1/types",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST Type",
+					"request": {
+						"url": "{{host}}/api/v1/types",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Kelas Mata Kuliah\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Type",
+					"request": {
+						"url": "{{host}}/api/v1/types/1",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Kelas Mata Kuliah\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Type",
+					"request": {
+						"url": "{{host}}/api/v1/types/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Kelas Mata Kuliah\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "GET All Users",
+					"request": {
+						"url": "{{host}}/api/v1/users",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST New User",
+					"request": {
+						"url": "{{host}}/api/v1/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"lp\",\n  \"email\":\"lp@if.its.ac.id\",\n  \"hp\":\"081999776267\",\n  \"nrp_nip\":\"5113100096\",\n  \"password\":\"123321\",\n  \"is_admin\":true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH New User",
+					"request": {
+						"url": "{{host}}/api/v1/users/1",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"I Dewa Putu Ardi Nusawan\",\n  \"email\":\"ardi.nusawan13@gmail.com\",\n  \"hp\":\"081999776267\",\n  \"nrp_nip\":\"5113100096\",\n  \"password\":\"12344321\",\n  \"is_admin\":true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE New User",
+					"request": {
+						"url": "{{host}}/api/v1/users/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"I Dewa Putu Ardi Nusawan\",\n  \"email\":\"ardi.nusawan13@gmail.com\",\n  \"hp\":\"081999776267\",\n  \"nrp_nip\":\"5113100096\",\n  \"password\":\"12344321\",\n  \"is_admin\":true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Find User By NRP/NIP",
+					"request": {
+						"url": "{{host}}/api/v1/users/nrp_nip/5113100096",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer Token",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
