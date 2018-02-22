@@ -8,8 +8,9 @@ module Api::V1
     before_action :set_schedule, only: [:show, :update, :destroy]
 
     def conflict?(date1, date2)
-      !(date1.last <= date2.first || date1.first >= date2.last)
+      (date1.last <= date2.first && date1.first >= date2.last)
     end
+
     # POST /schedules/conflict
     def conflict
       error = false
@@ -22,23 +23,22 @@ module Api::V1
       from = from - 7.hours
       to = to - 7.hours
       if params[:repeated]=="0"
+        tmp_from = from
+        tmp_to = to
         $i = 0
         schedules.each_with_index do |schedule, index|
-          # if(schedule.start.to_datetime > DateTime.now)
             if (conflict?([tmp_from, tmp_to],
                           [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < 1
               @schedule_conflict = Schedule.find(schedule.id)
               schedules_conflict_list.push($i => Array(@schedule_conflict))
               $i +=1
             end
-          # end
         end
       elsif params[:repeated]=="1"
         tmp_from = from
         tmp_to = to
         $i = 0
           schedules.each_with_index do |schedule, index|
-            # if(schedule.start.to_datetime > DateTime.now)
               if (conflict?([tmp_from, tmp_to],
                             [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
               @schedule_conflict = Schedule.find(schedule.id )
@@ -47,14 +47,12 @@ module Api::V1
               tmp_to += params[:repeated_every].to_i.day
               $i +=1
               end
-            # end
           end
       elsif params[:repeated]=="2"
         tmp_from = from
         tmp_to = to
         $i = 0
         schedules.each_with_index do |schedule, index|
-          # if(schedule.start.to_datetime > DateTime.now)
             if (conflict?([tmp_from, tmp_to],
                           [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
               @schedule_conflict = Schedule.find(schedule.id )
@@ -63,14 +61,12 @@ module Api::V1
               tmp_to += params[:repeated_every].to_i.week
               $i +=1
             end
-          # end
         end
       elsif params[:repeated]=="3"
         tmp_from = from
         tmp_to = to
         $i = 0
         schedules.each_with_index do |schedule, index|
-          # if(schedule.start.to_datetime > DateTime.now)
             if (conflict?([tmp_from, tmp_to],
                           [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
               @schedule_conflict = Schedule.find(schedule.id )
@@ -79,17 +75,13 @@ module Api::V1
               tmp_to += params[:repeated_every].to_i.month
               $i +=1
             end
-          # end
         end
       end
-      # render json: schedules_conflict_list
       if schedules_conflict_list.none?
         render :json => { :success => true}
-        # return true
        else
          render :json => { :success => false,
                            :conflict => schedules_conflict_list }
-        # return false
       end
     end
 
@@ -153,20 +145,23 @@ module Api::V1
       second =  Time.at(data[:duration].to_i).strftime("%S")
       second = second.to_i.seconds
       from = data[:start].to_datetime
-      #to = data[:end].to_datetime
       tmp = from - 7.hours
 
       if data[:repeated]!="0"
-        if data[:repeated]=="1" #loop each day
           $i = 0
           while $i < data[:repeated_end_after].to_i
-          #while tmp <= to
             data_insert = {
                 "booking_id" => data[:booking_id],
                 "start" => tmp,
                 "end" => tmp + hours + minute + second
             }
-            tmp += data[:repeated_every].to_i.day
+            if data[:repeated]=="1"
+              tmp += data[:repeated_every].to_i.day
+            elsif data["repeated"]=="2"
+              tmp += data[:repeated_every].to_i.week
+            elsif data["repeated"]=="3"          
+              tmp += data[:repeated_every].to_i.month
+            end
             @schedule = Schedule.new(data_insert)
 
             if @schedule.save
@@ -177,46 +172,6 @@ module Api::V1
             end
             $i +=1
           end
-        elsif data["repeated"]=="2" #loop each week
-          $i = 0
-          while $i < data[:repeated_end_after].to_i
-          # while tmp <= to
-            data_insert = {
-                "booking_id" => data["booking_id"],
-                "start" => tmp,
-                "end" => tmp + hours + minute + second
-            }
-            tmp += data[:repeated_every].to_i.week
-
-            @schedule = Schedule.new(data_insert)
-            if @schedule.save
-              response = true
-            else
-              response = false
-              errors = @schedule.errors
-            end
-            $i +=1
-          end
-        elsif data["repeated"]=="3" #loop each month
-          $i = 0
-          while $i < data[:repeated_end_after].to_i
-          # while tmp <= to
-            data_insert = {
-                "booking_id" => data["booking_id"],
-                "start" => tmp,
-                "end" => tmp + hours + minute + second
-            }
-            tmp += data[:repeated_every].to_i.month
-            @schedule = Schedule.new(data_insert)
-            if @schedule.save
-              response = true
-            else
-              response = false
-              errors = @schedule.errors
-            end
-            $i +=1
-          end
-        end
       elsif data["repeated"]=="0"
         data_insert = {
             "booking_id" => data[:booking_id],
