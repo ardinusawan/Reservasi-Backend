@@ -1,6 +1,7 @@
 # Jakarta -> +7 GMT
 # So, i decided to decrement all date with minus 7 hours
 # Ardi Nusawan
+
 module Api::V1
   class SchedulesController < ApplicationController
     respond_to :json
@@ -8,7 +9,8 @@ module Api::V1
     before_action :set_schedule, only: [:show, :update, :destroy]
 
     def conflict?(date1, date2)
-      (date1.last <= date2.first && date1.first >= date2.last)
+      # https://stackoverflow.com/a/325964/4154982
+      ((date1.first <= date2.last) && (date1.last >= date2.first))
     end
 
     # POST /schedules/conflict
