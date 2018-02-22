@@ -10,7 +10,7 @@ Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
 * Create server key, using `RAILS_ENV=production rails secret`
 * Copy config/local_env.yml.example to config/local_env.yml and edit value there
 * rails s -b 0.0.0.0 -p 10003 -d -e production
-* OR `nohup rails s -b 0.0.0.0 -p 10003 -e production`
+* OR `nohup rails s -b 0.0.0.0 -p 10003 -d -e production`
 * AND `tail -f nohup.out` if u want to read log
 --------
 
