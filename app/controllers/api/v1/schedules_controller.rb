@@ -43,22 +43,22 @@ module Api::V1
         tmp_from = from
         tmp_to = to
         $i = 0
-          while $i <= params[:repeated_end_after].to_i            
-            schedules.each_with_index do |schedule, index|
-              if conflict?([tmp_from, tmp_to], [schedule.start, schedule.end])
-                @schedule_conflict = Schedule.find(schedule.id )
-                schedules_conflict_list.push(Array(@schedule_conflict))
-              end
+        while $i <= params[:repeated_end_after].to_i            
+          schedules.each_with_index do |schedule, index|
+            if conflict?([tmp_from, tmp_to], [schedule.start, schedule.end])
+              @schedule_conflict = Schedule.find(schedule.id )
+              schedules_conflict_list.push(Array(@schedule_conflict))
             end
+          end
 
-            tmp_from += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
-                        (params[:repeated_every].to_i.week if params[:repeated]=="2") || 
-                        (params[:repeated_every].to_i.month if params[:repeated]=="3")
-            
-            tmp_to += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
+          tmp_from += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
                       (params[:repeated_every].to_i.week if params[:repeated]=="2") || 
                       (params[:repeated_every].to_i.month if params[:repeated]=="3")
-        
+          
+          tmp_to += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
+                    (params[:repeated_every].to_i.week if params[:repeated]=="2") || 
+                    (params[:repeated_every].to_i.month if params[:repeated]=="3")
+      
           $i+=1
         end
       end
