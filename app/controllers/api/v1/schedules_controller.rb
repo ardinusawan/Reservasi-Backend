@@ -46,7 +46,7 @@ module Api::V1
         $j = 0
           while $i <= params[:repeated_end_after].to_i            
             schedules.each_with_index do |schedule, index|
-                if (conflict?([tmp_from, tmp_to], [schedule.start, schedule.end]) and $i <= params[:repeated_end_after].to_i)
+                if (conflict?([tmp_from, tmp_to], [schedule.start, schedule.end]) and $j <= params[:repeated_end_after].to_i)
                   @schedule_conflict = Schedule.find(schedule.id )
                   schedules_conflict_list.push($i => Array(@schedule_conflict))
                 end
