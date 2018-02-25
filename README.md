@@ -3,34 +3,46 @@ Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
 [![Build Status](https://travis-ci.org/lpif/Reservasi-Backend.svg?branch=master)](https://travis-ci.org/lpif/Reservasi-Backend)
 --------
 ### How To Deploy
+1. Remember to update & install dependency before deploy
+```sh
+$ bundle update
+$ bundle install
+```
+
+2. Copy config/local_env.yml.example to config/local_env.yml and edit with your configuration in  your environment (Dev/Prod). 
+
 ## Dev
 * rails s -b 0.0.0.0 -p 10003 -d
 
 ## Prod
-* Create server key, using `RAILS_ENV=production rails secret`
-* Copy config/local_env.yml.example to config/local_env.yml and edit value there
+* To create devise secret key, using
+```sh
+$ bundle exec rake secret 
+```
+* Create server key, using 
+```sh
+$ RAILS_ENV=production rails secret
+```
+Put both key in config/local_env.yml
 * rails s -b 0.0.0.0 -p 10003 -d -e production
 * OR `nohup rails s -b 0.0.0.0 -p 10003 -d -e production`
-* AND `tail -f nohup.out` if u want to read log
+* OR `tail -f nohup.out` if u want to read log.
 --------
 
 * Ruby & Rails version
     - ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
-    - Rails 5.0.0.1
+    - Rails 5.1.5
 * System dependencies
   - Ubuntu 16.04 (Prod), Ubuntu Mate 16.04(Dev)
   - MySQL (Dev & Prod)
-  - Puma (Dev), Apache2(Prod)
+  - Puma (Dev & Prod)
 * Configuration
   - Setting u'r DDoS params (im 2 lazy 2 write right now)
     - http://sourcey.com/building-the-prefect-rails-5-api-only-app/
-  - Setting u'r database in config/database, if server in cloud / diff server, add host parameter
 * Database creation  
     - rails db:create
 * Database initialization
     - rails db:migrate
-* How to run the test suite
-* Services (job queues, cache servers, search engines, etc.)
 * Deployment instructions
   - Bundle install
   - Create Admin Account using ruby command (in root web dir)
