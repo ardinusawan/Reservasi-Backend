@@ -1,7 +1,5 @@
 Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya, Indonesia
 ================
-[![Build Status](https://travis-ci.org/lpif/Reservasi-Backend.svg?branch=master)](https://travis-ci.org/lpif/Reservasi-Backend)
---------
 ### How To Deploy
 1. Remember to update & install dependency before deploy
 ```sh
