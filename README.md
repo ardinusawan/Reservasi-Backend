@@ -20,7 +20,8 @@ $ bundle install
 $ bundle exec rake secret 
 ```
 * Create server key, using 
-```$ RAILS_ENV=production rails secret
+```sh
+$ RAILS_ENV=production rails secret
 ```
 Put both key in config/local_env.yml
 * rails s -b 0.0.0.0 -p 10003 -d -e production
