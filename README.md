@@ -3,6 +3,11 @@ Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
 [![Build Status](https://travis-ci.org/lpif/Reservasi-Backend.svg?branch=master)](https://travis-ci.org/lpif/Reservasi-Backend)
 --------
 ### How To Deploy
+Remember to update & install dependency before deploy
+```sh
+$ bundle update
+$ bundle install
+```
 ## Dev
 * rails s -b 0.0.0.0 -p 10003 -d
 
@@ -48,3 +53,5 @@ Reservasi Backend for Laboratorium Pemrograman I Teknik Informatika ITS Surabaya
     - run on background : -d. Example: rails s -d
 * Auth
   - Iam Using JWT, from https://www.sitepoint.com/introduction-to-using-jwt-in-rails/
+  
+  
