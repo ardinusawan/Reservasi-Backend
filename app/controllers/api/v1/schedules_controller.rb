@@ -1,6 +1,9 @@
+# Created By:
+# I Dewa Putu Ardi Nusawan
+
 # Jakarta -> +7 GMT
 # So, i decided to decrement all date with minus 7 hours
-# Ardi Nusawan
+# Unfortunately, need to fix this with more clean
 
 module Api::V1
   class SchedulesController < ApplicationController
@@ -10,7 +13,7 @@ module Api::V1
 
     def conflict?(date1, date2)
       # https://stackoverflow.com/a/325964/4154982
-      ((date1.first <= date2.last) && (date1.last >= date2.first))
+      return ((date1.first <= date2.last) && (date1.last >= date2.first))
     end
 
     # POST /schedules/conflict
@@ -36,47 +39,29 @@ module Api::V1
               $i +=1
             end
         end
-      elsif params[:repeated]=="1"
+      else
         tmp_from = from
         tmp_to = to
         $i = 0
-          schedules.each_with_index do |schedule, index|
-              if (conflict?([tmp_from, tmp_to],
-                            [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
-              @schedule_conflict = Schedule.find(schedule.id )
-              schedules_conflict_list.push($i => Array(@schedule_conflict))
-              tmp_from += params[:repeated_every].to_i.day
-              tmp_to += params[:repeated_every].to_i.day
-              $i +=1
-              end
-          end
-      elsif params[:repeated]=="2"
-        tmp_from = from
-        tmp_to = to
-        $i = 0
-        schedules.each_with_index do |schedule, index|
-            if (conflict?([tmp_from, tmp_to],
-                          [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
-              @schedule_conflict = Schedule.find(schedule.id )
-              schedules_conflict_list.push($i => Array(@schedule_conflict))
-              tmp_from += params[:repeated_every].to_i.week
-              tmp_to += params[:repeated_every].to_i.week
-              $i +=1
+        $j = 0
+          while $i <= params[:repeated_end_after].to_i            
+            schedules.each_with_index do |schedule, index|
+                if (conflict?([tmp_from, tmp_to], [schedule.start, schedule.end]) and $i <= params[:repeated_end_after].to_i)
+                  @schedule_conflict = Schedule.find(schedule.id )
+                  schedules_conflict_list.push($i => Array(@schedule_conflict))
+                end
+                $j +=1
             end
-        end
-      elsif params[:repeated]=="3"
-        tmp_from = from
-        tmp_to = to
-        $i = 0
-        schedules.each_with_index do |schedule, index|
-            if (conflict?([tmp_from, tmp_to],
-                          [schedule.start.to_datetime, schedule.end.to_datetime])) and $i < params[:repeated_end_after].to_i
-              @schedule_conflict = Schedule.find(schedule.id )
-              schedules_conflict_list.push($i => Array(@schedule_conflict))
-              tmp_from += params[:repeated_every].to_i.month
-              tmp_to += params[:repeated_every].to_i.month
-              $i +=1
-            end
+
+            tmp_from += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
+                        (params[:repeated_every].to_i.week if params[:repeated]=="2") || 
+                        (params[:repeated_every].to_i.month if params[:repeated]=="3")
+            
+            tmp_to += (params[:repeated_every].to_i.day if params[:repeated]=="1") || 
+                      (params[:repeated_every].to_i.week if params[:repeated]=="2") || 
+                      (params[:repeated_every].to_i.month if params[:repeated]=="3")
+        
+          $i+=1
         end
       end
       if schedules_conflict_list.none?

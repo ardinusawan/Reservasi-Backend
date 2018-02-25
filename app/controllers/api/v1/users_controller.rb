@@ -1,3 +1,6 @@
+# Created By:
+# I Dewa Putu Ardi Nusawan
+
 module Api::V1
   class UsersController < ApplicationController
     respond_to :json
