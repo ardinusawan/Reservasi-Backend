@@ -18,8 +18,7 @@ module Api::V1
 
     # POST /schedules/conflict
     def conflict
-      error = false
-      schedules = Schedule.all
+      schedules = Schedule.where("start >= ?", Time.zone.now.beginning_of_day)
       schedules_conflict_list = Array.new
       from = params[:start].to_datetime
       to = params[:start].to_datetime + params[:duration].to_i.seconds
