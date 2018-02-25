@@ -2,7 +2,7 @@ module Api::V1
   class TypesController < ApplicationController
     respond_to :json
 
-    before_filter :authenticate_request!, only: [:update, :destroy]
+    before_action :authenticate_request!, only: [:update, :destroy]
     before_action :set_type, only: [:show, :update, :destroy]
 
     # GET /types

@@ -5,7 +5,7 @@
 module Api::V1
   class SchedulesController < ApplicationController
     respond_to :json
-    before_filter :authenticate_request!, only: [:update, :destroy]
+    before_action :authenticate_request!, only: [:update, :destroy]
     before_action :set_schedule, only: [:show, :update, :destroy]
 
     def conflict?(date1, date2)
