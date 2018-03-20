@@ -42,7 +42,7 @@ module Api::V1
         tmp_from = from
         tmp_to = to
         $i = 0
-        while $i <= params[:repeated_end_after].to_i            
+        while $i < params[:repeated_end_after].to_i            
           schedules.each_with_index do |schedule, index|
             if conflict?([tmp_from, tmp_to], [schedule.start, schedule.end])
               @schedule_conflict = Schedule.find(schedule.id )
