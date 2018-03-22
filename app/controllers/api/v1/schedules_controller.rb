@@ -121,66 +121,47 @@ module Api::V1
 
     # POST /schedules
     def create
-      data = params
-      hours =  Time.at(data[:duration].to_i).strftime("%H")
-      hours = hours.to_i.hours - 7.hours
-      minute =  Time.at(data[:duration].to_i).strftime("%M")
-      minute = minute.to_i.minutes
-      second =  Time.at(data[:duration].to_i).strftime("%S")
-      second = second.to_i.seconds
-      from = data[:start].to_datetime
-      tmp = from - 7.hours
+      conflict  = Array.new
+      from = Time.parse(params[:start])
+      schedules = Schedule.where("start >= ?", Time.zone.now.beginning_of_day)
+      for i in (1..params[:repeated_end_after].to_i)
+        to = from + params[:duration].to_i.seconds
 
-      if data[:repeated]!="0"
-          $i = 0
-          while $i < data[:repeated_end_after].to_i
-            data_insert = {
-                "booking_id" => data[:booking_id],
-                "start" => tmp,
-                "end" => tmp + hours + minute + second
-            }
-            if data[:repeated]=="1"
-              tmp += data[:repeated_every].to_i.day
-            elsif data["repeated"]=="2"
-              tmp += data[:repeated_every].to_i.week
-            elsif data["repeated"]=="3"          
-              tmp += data[:repeated_every].to_i.month
-            end
-            @schedule = Schedule.new(data_insert)
-
-            if @schedule.save
-               response = true
-            else
-              response = false
-              errors = @schedule.errors
-            end
-            $i +=1
+        schedules.each do |schedule|
+          if conflict?([from, to], [schedule.start.to_datetime, schedule.end.to_datetime])
+            conflict.push(Schedule.find(schedule.id))
           end
-      elsif data["repeated"]=="0"
-        data_insert = {
-            "booking_id" => data[:booking_id],
-            "start" => tmp,
-            "end" => tmp + hours + minute + second
-        }
-        @schedule = Schedule.new(data_insert)
 
-        if @schedule.save
-          response = true
+        end
+
+        data_insert = {
+            booking_id: params[:booking_id],
+            start: from,
+            end: to
+        }
+
+        if conflict.empty?
+          @schedule = Schedule.new(data_insert)
+          unless @schedule.save
+            render json: {success: false, error: @schedule.error}, status: :unprocessable_entity
+          end
+        end
+
+        if params[:repeated]=="1"
+          from += params[:repeated_every].to_i.day
+        elsif params[:repeated]=="2"
+          from += params[:repeated_every].to_i.week
+        elsif params[:repeated]=="3"
+          from += params[:repeated_every].to_i.month
         else
-          response = false
-          errors = @schedule.errors
+          from = from
         end
       end
 
-      if response==true
-        render json: @schedule, status: :created
+      if conflict.empty?
+        render json: {success: true, data: @schedule}, status: :created
       else
-        if errors.nil?
-          errors = {
-              "message" => "Cannot create interval data"
-          }
-        end
-        respond_with :api, :v1, json: errors, status: :unprocessable_entity
+        render json: {success: false, conflict: conflict}, status: :unprocessable_entity
       end
     end
 
