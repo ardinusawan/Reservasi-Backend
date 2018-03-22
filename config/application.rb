@@ -45,7 +45,11 @@ module ReservasiBackend
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
-    
     config.middleware.use Rack::Attack
+
+    config.time_zone = "Jakarta"
+    config.active_record.default_timezone = :local
+    # config.active_record.time_zone_aware_attributes = false
+
   end
 end
