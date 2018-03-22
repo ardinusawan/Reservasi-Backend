@@ -1,10 +1,6 @@
 # Created By:
 # I Dewa Putu Ardi Nusawan
 
-# Jakarta -> +7 GMT
-# So, i decided to decrement all date with minus 7 hours
-# Unfortunately, need to fix this with more clean
-
 module Api::V1
   class SchedulesController < ApplicationController
     respond_to :json
